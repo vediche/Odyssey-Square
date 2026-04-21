@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Odyssey Square — Complete Services</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800&display=swap');
+
+  :root {
+    --primary: #0a0f1c;
+    --accent: #c9a84c;
+    --accent-light: #e4c96a;
+    --accent-dark: #a8873a;
+    --surface: #111827;
+    --surface-2: #1a2236;
+    --surface-3: #222d44;
+    --text: #e8eaf0;
+    --text-muted: #8892a8;
+    --border: rgba(201, 168, 76, 0.15);
+    --glow: rgba(201, 168, 76, 0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--primary);
+    color: var(--text);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ─── Grain Overlay ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ─── Hero ─── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2.5rem;
+    backdrop-filter: blur(10px);
+    background: rgba(201,168,76,0.04);
+    animation: fadeDown 0.8s ease;
+  }
+
+  .hero-badge .dot {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 7vw, 6rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+    animation: fadeUp 0.8s ease;
+  }
+
+  .hero h1 span {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 50%, var(--accent) 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 4s linear infinite;
+  }
+
+  .hero-sub {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    color: var(--text-muted);
+    font-weight: 400;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.8s ease 0.15s both;
+  }
+
+  .hero-desc {
+    max-width: 680px;
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+    animation: fadeUp 0.8s ease 0.3s both;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2.5rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    animation: fadeUp 0.8s ease 0.45s both;
+  }
+
+  .hero-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(201,168,76,0.25);
+  }
+
+  .hero-cta svg { transition: transform 0.3s; }
+  .hero-cta:hover svg { transform: translateX(4px); }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    animation: fadeUp 1s ease 0.6s both;
+  }
+
+  .scroll-indicator .line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    animation: scrollLine 2s ease infinite;
+  }
+
+  /* ─── Navigation Sidebar ─── */
+  .side-nav {
+    position: fixed;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .side-nav a {
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--surface-3);
+    border: 1px solid rgba(201,168,76,0.2);
+    transition: all 0.3s;
+    position: relative;
+  }
+
+  .side-nav a:hover,
+  .side-nav a.active {
+    background: var(--accent);
+    transform: scale(1.4);
+    box-shadow: 0 0 10px rgba(201,168,76,0.3);
+  }
+
+  .side-nav a .tooltip {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    padding: 0.35rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    white-space: nowrap;
+    color: var(--text);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
+
+  .side-nav a:hover .tooltip { opacity: 1; }
+
+  /* ─── Section Styles ─── */
+  .section {
+    padding: 6rem 2rem;
+    position: relative;
+  }
+
+  .section:nth-child(even) { background: var(--surface); }
+
+  .section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    font-weight: 800;
+    color: rgba(201,168,76,0.06);
+    line-height: 1;
+    margin-bottom: -1.5rem;
+    position: relative;
+    z-index: 0;
+  }
+
+  .section-header {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-header h2 .accent {
+    color: var(--accent);
+  }
+
+  .section-header .divider {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    margin-bottom: 1rem;
+  }
+
+  .section-header p {
+    color: var(--text-muted);
+    max-width: 700px;
+    font-size: 1rem;
+  }
+
+  /* ─── Service Grid ─── */
+  .service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 2.5rem;
+  }
+
+  .service-item {
+    padding: 1.25rem 1.5rem;
+    background: var(--primary);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    transition: all 0.3s ease;
+    cursor: default;
+  }
+
+  .section:nth-child(even) .service-item {
+    background: var(--surface);
+  }
+
+  .service-item:hover {
+    background: var(--surface-2);
+    transform: translateX(4px);
+  }
+
+  .service-item .icon {
+    flex-shrink: 0;
+    width: 6px;
+    height: 6px;
+    margin-top: 0.6rem;
+    background: var(--accent);
+    border-radius: 50%;
+    opacity: 0.6;
+    transition: all 0.3s;
+  }
+
+  .service-item:hover .icon {
+    opacity: 1;
+    box-shadow: 0 0 8px rgba(201,168,76,0.4);
+  }
+
+  .service-item span {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    transition: color 0.3s;
+  }
+
+  .service-item:hover span {
+    color: var(--text);
+  }
+
+  /* ─── Categories Strip ─── */
+  .categories-section {
+    padding: 6rem 2rem;
+    background: linear-gradient(180deg, var(--surface) 0%, var(--primary) 100%);
+  }
+
+  .categories-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .categories-inner h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    margin-bottom: 0.75rem;
+  }
+
+  .categories-inner .subtitle {
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+    font-size: 1rem;
+  }
+
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+
+  .cat-card {
+    padding: 1.5rem;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    text-align: left;
+    transition: all 0.35s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 0;
+    background: var(--accent);
+    transition: height 0.4s ease;
+  }
+
+  .cat-card:hover::before { height: 100%; }
+
+  .cat-card:hover {
+    border-color: rgba(201,168,76,0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  }
+
+  .cat-card .cat-num {
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+
+  .cat-card h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  /* ─── Footer / CTA ─── */
+  .footer-cta {
+    padding: 6rem 2rem;
+    text-align: center;
+    position: relative;
+  }
+
+  .footer-cta::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .footer-cta h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: 1rem;
+  }
+
+  .footer-cta p {
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto 2.5rem;
+    font-size: 1.05rem;
+  }
+
+  .footer-cta .btn-row {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    padding: 1rem 2.5rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(201,168,76,0.25);
+  }
+
+  .btn-outline {
+    padding: 1rem 2.5rem;
+    background: transparent;
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 4px;
+    border: 1px solid var(--accent);
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .btn-outline:hover {
+    background: rgba(201,168,76,0.08);
+    transform: translateY(-2px);
+  }
+
+  .footer-bar {
+    padding: 2rem;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .footer-bar span { color: var(--accent); }
+
+  /* ─── Sector Tags ─── */
+  .sector-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .sector-tag {
+    padding: 0.5rem 1.25rem;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    transition: all 0.3s;
+  }
+
+  .sector-tag:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(201,168,76,0.06);
+  }
+
+  /* ─── Animations ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes shimmer {
+    0%   { background-position: 0% center; }
+    100% { background-position: 200% center; }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.3; }
+  }
+
+  @keyframes scrollLine {
+    0%   { opacity: 0; transform: scaleY(0); transform-origin: top; }
+    50%  { opacity: 1; transform: scaleY(1); transform-origin: top; }
+    100% { opacity: 0; transform: scaleY(1); transform-origin: bottom; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 768px) {
+    .side-nav { display: none; }
+    .section { padding: 4rem 1.25rem; }
+    .service-grid { grid-template-columns: 1fr; }
+    .cat-grid { grid-template-columns: 1fr 1fr; }
+    .section-num { font-size: 3.5rem; }
+  }
+
+  @media (max-width: 480px) {
+    .cat-grid { grid-template-columns: 1fr; }
+    .hero { padding: 2rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ Side Navigation ═══ -->
+<nav class="side-nav" id="sideNav"></nav>
+
+<!-- ═══ Hero ═══ -->
+<section class="hero" id="hero">
+  <div class="hero-badge"><span class="dot"></span> A Division of Uthra Media Pvt Ltd</div>
+  <h1><span>Odyssey Square</span></h1>
+  <p class="hero-sub">Premium Branding & Digital Marketing</p>
+  <p class="hero-desc">End-to-end branding, design, digital marketing, website, UI/UX, content, advertising, and visual communication services — built for corporates and premium businesses ready for measurable brand growth.</p>
+  <a href="#s1" class="hero-cta">
+    Explore Our Services
+    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </a>
+  <div class="scroll-indicator">
+    <div class="line"></div>
+    Scroll
+  </div>
+</section>
+
+<!-- ═══ Service Sections ═══ -->
+<div id="sections-container"></div>
+
+<!-- ═══ Consolidated Categories ═══ -->
+<section class="categories-section" id="categories">
+  <div class="categories-inner">
+    <h2>Core Service <span style="color:var(--accent)">Categories</span></h2>
+    <p class="subtitle">For brochure, website, or profile — Odyssey Square at a glance.</p>
+    <div class="cat-grid" id="catGrid"></div>
+  </div>
+</section>
+
+<!-- ═══ Footer CTA ═══ -->
+<section class="footer-cta">
+  <h2>Let's Build Something <span style="color:var(--accent)">Extraordinary</span></h2>
+  <p>Whether you need a complete brand overhaul or a focused digital campaign, Odyssey Square delivers premium results with strategic clarity.</p>
+  <div class="btn-row">
+    <a class="btn-primary" href="#hero">Back to Top</a>
+    <a class="btn-outline" href="mailto:hello@odysseysquare.com">Get in Touch</a>
+  </div>
+</section>
+
+<div class="footer-bar">
+  &copy; 2026 <span>Odyssey Square</span> — A Division of Uthra Media Pvt Ltd. All Rights Reserved.
+</div>
+
+<script>
+// ═══ DATA ═══
+const services = [
+  {
+    id: "s1",
+    num: "01",
+    title: "Brand Strategy",
+    accent: "& Corporate Identity",
+    desc: "Define, build, and elevate your brand from foundation level to enterprise-scale positioning.",
+    items: ["Brand strategy development","Brand positioning","Brand architecture","Brand naming support","Brand story development","Mission, vision & values articulation","Corporate identity creation","Logo design & logo systems","Tagline development","Brand guideline / brand manual creation","Visual identity systems","Typography & color palette development","Iconography systems","Rebranding & brand refresh","Sub-brand development","Employer branding","Personal branding for founders / directors","Corporate profile design","Company presentation / pitch deck design","Digital profile / executive profile design","Investor presentation design","Brand communication framework"]
+  },
+  {
+    id: "s2",
+    num: "02",
+    title: "Creative Design",
+    accent: "Services",
+    desc: "Premium visual communication assets for digital, print, internal, and external brand use.",
+    items: ["Marketing collateral design","Brochure design","Corporate brochure design","Product catalogue design","Service portfolio design","Flyer & leaflet design","Poster & standee design","Business card design","Letterhead & envelope design","ID card design","Email signature design","Presentation design","Report & annual report design","Proposal design","Case study design","Infographic design","Ad creative design","Campaign creative design","Social media creative design","Event branding design","Exhibition panel design","Hoarding & billboard design","Packaging design support","Print-ready artwork preparation"]
+  },
+  {
+    id: "s3",
+    num: "03",
+    title: "Website Design",
+    accent: "& Development",
+    desc: "Modern, performance-driven websites for corporates, premium brands, and growth-focused businesses.",
+    items: ["Corporate website design","Business website development","Premium landing page design","Multi-page website development","Responsive website development","UI/UX design","Website wireframing","Website content structure planning","Website redesign & revamp","CMS-based website development","WordPress website development","Custom website development","Portfolio websites","Service-based business websites","Real estate & construction websites","Manufacturing & institutional websites","Microsite development","Blog page setup","Contact form & lead capture integration","WhatsApp & chat integration","Speed optimization","Basic on-page & technical SEO setup","Website maintenance & updates","Website security & backup support","Domain & hosting coordination"]
+  },
+  {
+    id: "s4",
+    num: "04",
+    title: "UI/UX Design",
+    accent: "Services",
+    desc: "User-centered interface design for digital products, websites, internal systems, and business platforms.",
+    items: ["UI design for websites","UX planning for websites","Mobile app UI design","Web application UI design","Dashboard design","CRM interface design","Internal software UI design","ERP / operations app UI design","User journey mapping","Information architecture","Wireframe design","Prototype design","Design system creation","Style guide creation","Conversion-focused UX design","Premium presentation interface design","Figma-ready screen planning","Developer handoff documentation"]
+  },
+  {
+    id: "s5",
+    num: "05",
+    title: "Social Media",
+    accent: "Management",
+    desc: "Professional social media presence for brands seeking visibility, engagement, and authority.",
+    items: ["Social media strategy","Social media calendar planning","Monthly content planning","Content pillar development","Post copywriting","Graphic & carousel post design","Static & motion post design","Story design","Reels concept planning","LinkedIn branding content","Instagram brand content","Facebook page content","X / Twitter content support","YouTube community content support","Account setup & optimization","Profile bio optimization","Hashtag strategy","Audience engagement support","Comment response guidance","Social media reporting","Monthly analytics review","Brand consistency across platforms"]
+  },
+  {
+    id: "s6",
+    num: "06",
+    title: "Content Strategy",
+    accent: "& Creation",
+    desc: "Strategic content that supports brand growth, lead generation, and professional positioning.",
+    items: ["Content strategy development","Brand messaging framework","Website content writing","Service & landing page content","Corporate profile content writing","Presentation & brochure content","SEO content writing","Blog & article writing","Thought leadership content","Founder communication content","LinkedIn article writing","Case study & project profile writing","Testimonial formatting","Email marketing content","Ad copywriting","Video & voice-over script writing","Reels script writing","Campaign messaging","Content repurposing strategy","Editorial content calendar"]
+  },
+  {
+    id: "s7",
+    num: "07",
+    title: "Search Engine",
+    accent: "Optimization (SEO)",
+    desc: "Improve search visibility and website discoverability through strategic SEO services.",
+    items: ["SEO audit","Keyword research","Competitor SEO analysis","On-page SEO","Meta title & description optimization","Website page optimization","URL & content structure recommendations","Internal linking recommendations","Image SEO","Blog SEO optimization","Technical SEO basics","Search console setup support","Analytics integration support","Local SEO optimization","Google Business Profile optimization","Content SEO planning","SEO reporting","Monthly SEO performance review"]
+  },
+  {
+    id: "s8",
+    num: "08",
+    title: "Performance Marketing",
+    accent: "& Paid Advertising",
+    desc: "Result-oriented advertising campaigns to generate leads, traffic, inquiries, and conversions.",
+    items: ["Digital advertising strategy","Lead generation campaigns","Brand awareness campaigns","Website traffic campaigns","Conversion campaigns","Remarketing campaigns","Meta ads management (Facebook & Instagram)","Google Ads campaign setup","Search ads & display ads","YouTube ads","LinkedIn ads support","Landing page coordination","Ad copywriting & creative design","Audience targeting setup","Pixel / tracking setup support","A/B testing support","Budget planning","Campaign optimization","Performance reporting","CPL / ROI review","Funnel-based ad planning"]
+  },
+  {
+    id: "s9",
+    num: "09",
+    title: "Lead Generation",
+    accent: "Support",
+    desc: "Structured digital lead generation systems to fuel business growth.",
+    items: ["B2B lead generation strategy","Inquiry generation campaigns","Landing page & form funnel setup","Lead magnet design support","Lead capture funnel planning","WhatsApp lead flow setup","Contact generation campaigns","Database campaign creatives","Ad-to-sales funnel coordination","CRM-ready lead form structure","Follow-up content support","Appointment generation campaigns","Retargeting campaigns for warm audiences"]
+  },
+  {
+    id: "s10",
+    num: "10",
+    title: "Video Production",
+    accent: "& Corporate Films",
+    desc: "High-impact video content to strengthen corporate image, product visibility, and campaign communication.",
+    items: ["Corporate film concept development","Corporate video scripting","Brand film scripting","Promotional video creation","Company introduction videos","Founder message videos","Service & product explainer videos","Testimonial videos","Project showcase & walkthrough videos","Reels & short-form video creation","Social media video editing","Interview video editing","Event highlight videos","Motion graphic videos","Animated presentation videos","Title animation & lower-third support","Voice-over coordination","Subtitle & caption support","Video resizing for multiple platforms"]
+  },
+  {
+    id: "s11",
+    num: "11",
+    title: "Photography",
+    accent: "& Visual Content",
+    desc: "Premium brand imagery for websites, social media, campaigns, and profiles.",
+    items: ["Corporate photo shoot coordination","Office / workspace photography","Team & leadership profile photography","Product photography support","Project photography","Event photography coverage","Social media visual asset planning","Image editing & enhancement","Banner image creation","Thumbnail design","Campaign imagery preparation"]
+  },
+  {
+    id: "s12",
+    num: "12",
+    title: "Corporate Communication",
+    accent: "& Collateral",
+    desc: "Polished, strategic, and sales-ready corporate materials that strengthen business communication.",
+    items: ["Company profile creation","Service deck creation","Proposal design support","Tender / capability presentation","Client presentation design","Sales kit design","Internal communication templates","Launch communication materials","Announcement creatives","Business introduction email templates","Partnership deck creation","Corporate communication copywriting"]
+  },
+  {
+    id: "s13",
+    num: "13",
+    title: "Marketing Automation",
+    accent: "& Digital Workflows",
+    desc: "Streamlined communication and campaign workflows for scale and efficiency.",
+    items: ["Email marketing workflow planning","Lead nurturing flow planning","Campaign automation planning","CRM-integrated marketing support","Inquiry response template creation","Automated welcome sequence content","Follow-up email content systems","Campaign tracking structure","Marketing funnel mapping","Reporting dashboard planning","Multi-channel communication flow setup"]
+  },
+  {
+    id: "s14",
+    num: "14",
+    title: "Online Reputation",
+    accent: "& Brand Presence",
+    desc: "Build a credible and polished digital reputation across all touchpoints.",
+    items: ["Online brand presence audit","Corporate identity consistency review","Google Business Profile management","Review response guidance","Reputation-focused content support","Thought leadership content support","Founder & leadership positioning","Trust-building content strategy","Authority-building digital assets"]
+  },
+  {
+    id: "s15",
+    num: "15",
+    title: "Sector-Specific",
+    accent: "Marketing Support",
+    desc: "Specialized support for real estate, construction, corporate enterprises, and premium B2B brands.",
+    items: ["Project branding","Project launch creatives","Property marketing support","Construction company profiles","Capability presentations","Project progress visual content","Investor-facing design support","Corporate project showcase content","Trust-building case study communication"],
+    sectors: ["Real Estate Developers","Construction Firms","Infrastructure Companies","Interior Fit-Out Companies","Manufacturing Businesses","Premium B2B Service Companies","Corporate Enterprises & MNCs","High-End Institutions","Luxury & Premium Service Brands"]
+  },
+  {
+    id: "s16",
+    num: "16",
+    title: "Print & Outdoor",
+    accent: "Branding Support",
+    desc: "Offline brand visibility and physical marketing materials that extend your presence beyond digital.",
+    items: ["Visiting cards & corporate stationery","Office branding graphics","Wall branding design","Signage design","Reception branding visuals","Hoarding design","Outdoor campaign creatives","Event booth graphics","Backdrop design","Exhibition stand graphics","Print vendor coordination support"]
+  },
+  {
+    id: "s17",
+    num: "17",
+    title: "Consultation",
+    accent: "& Strategic Support",
+    desc: "A strategic branding and marketing partner, not just a creative service vendor.",
+    items: ["Brand consultation","Marketing strategy consultation","Digital growth consultation","Campaign planning consultation","Website structure consultation","UI/UX consultation","Content direction consultation","Brand launch planning","Rebranding strategy consultation","Communication audit","Creative review & refinement","Monthly marketing review support"]
+  }
+];
+
+const coreCategories = [
+  "Corporate Branding & Identity",
+  "Creative Design & Marketing Collaterals",
+  "Website Design & Development",
+  "UI/UX Design",
+  "Social Media Management",
+  "Content Strategy & Copywriting",
+  "SEO Services",
+  "Performance Marketing & Paid Campaigns",
+  "Lead Generation Systems",
+  "Corporate Films & Video Production",
+  "Photography & Visual Content",
+  "Marketing Automation Support",
+  "Corporate Communication Materials",
+  "Reputation & Digital Presence Management",
+  "Outdoor & Print Branding",
+  "Strategic Marketing Consultation"
+];
+
+// ═══ RENDER ═══
+const container = document.getElementById('sections-container');
+const sideNav = document.getElementById('sideNav');
+
+services.forEach((s, i) => {
+  // Side nav dot
+  const dot = document.createElement('a');
+  dot.href = `#${s.id}`;
+  dot.innerHTML = `<span class="tooltip">${s.num}. ${s.title}</span>`;
+  dot.dataset.section = s.id;
+  sideNav.appendChild(dot);
+
+  // Section
+  const section = document.createElement('section');
+  section.className = 'section';
+  section.id = s.id;
+
+  let sectorHTML = '';
+  if (s.sectors) {
+    sectorHTML = `<div class="sector-tags">${s.sectors.map(t => `<span class="sector-tag">${t}</span>`).join('')}</div>`;
+  }
+
+  section.innerHTML = `
+    <div class="section-inner reveal">
+      <div class="section-num">${s.num}</div>
+      <div class="section-header">
+        <h2>${s.title} <span class="accent">${s.accent}</span></h2>
+        <div class="divider"></div>
+        <p>${s.desc}</p>
+      </div>
+      ${sectorHTML}
+      <div class="service-grid">
+        ${s.items.map(item => `
+          <div class="service-item">
+            <div class="icon"></div>
+            <span>${item}</span>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+  container.appendChild(section);
+});
+
+// Core categories
+const catGrid = document.getElementById('catGrid');
+coreCategories.forEach((cat, i) => {
+  catGrid.innerHTML += `
+    <div class="cat-card reveal">
+      <div class="cat-num">${String(i + 1).padStart(2, '0')}</div>
+      <h3>${cat}</h3>
+    </div>
+  `;
+});
+
+// ═══ Intersection Observer ═══
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Active nav dot
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    const dot = sideNav.querySelector(`[data-section="${e.target.id}"]`);
+    if (dot) {
+      if (e.isIntersecting) dot.classList.add('active');
+      else dot.classList.remove('active');
+    }
+  });
+}, { threshold: 0.3 });
+
+document.querySelectorAll('.section').forEach(el => sectionObserver.observe(el));
+</script>
+
+</body>
+</html>
